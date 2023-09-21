@@ -17,12 +17,12 @@ const port = 2410;
 app.listen(port, () => console.log(`Listening on port ${port} !`));
 let { data } = require("./productsDetail");
 
-app.get("/shops", function (req, res) {
+app.get("/shops1", function (req, res) {
     res.send(data.shops);
   
   });
 
-  app.post("/shops",function(req,res){
+  app.post("/shops1",function(req,res){
     let body=req.body   
     let maxid=data.shops.reduce((acc,cur)=>cur.shopId>=acc?cur.shopId:acc,0)
     let newid=maxid+1
@@ -31,12 +31,12 @@ app.get("/shops", function (req, res) {
     res.send(newShop)
   })
 
-  app.get("/products", function (req, res) {
+  app.get("/products1", function (req, res) {
     res.send(data.products);
   
   });
 
-  app.post("/products",function(req,res){
+  app.post("/products1",function(req,res){
     let body=req.body   
     let maxid=data.products.reduce((acc,cur)=>cur.productId>=acc?cur.productId:acc,0)
     let newid=maxid+1
@@ -45,7 +45,7 @@ app.get("/shops", function (req, res) {
     res.send(newProduct)
   })
 
-  app.put("/products/:productId", function(req,res){
+  app.put("/products1/:productId", function(req,res){
     let productId= +req.params.productId;
     let body=req.body;
     let index=data.products.findIndex((pr)=>pr.productId===productId)
@@ -60,7 +60,7 @@ app.get("/shops", function (req, res) {
   })
 
 
-app.get("/purchases", function (req, res) {
+app.get("/purchases1", function (req, res) {
   const shopId = req.query.shop;
   const productId = req.query.product;
   const sort = req.query.sort;
@@ -98,7 +98,7 @@ app.get("/purchases", function (req, res) {
   res.send(filteredPurchases);
 });
 
-  app.post("/purchases",function(req,res){
+  app.post("/purchases1",function(req,res){
     let body=req.body   
     let maxid=data.purchases.reduce((acc,cur)=>cur.purchaseId>=acc?cur.purchaseId:acc,0)
     let newid=maxid+1
@@ -108,7 +108,7 @@ app.get("/purchases", function (req, res) {
   })
 
 
-  app.get("/purchases/products/:id",function(req,res){
+  app.get("/purchases1/products1/:id",function(req,res){
     let id=+req.params.id
     const productPurchases = data.purchases.filter(
         (purchase) => purchase.productid === id
@@ -119,7 +119,7 @@ app.get("/purchases", function (req, res) {
       }  
 })
 
-app.get("/products/:id",function(req,res){
+app.get("/products1/:id",function(req,res){
     let id=+req.params.id
     let product=data.products.find(pr=>pr.productId===id)
     if(product)  res.send(product)
@@ -127,7 +127,7 @@ app.get("/products/:id",function(req,res){
    
 })
 
-app.get("/purchases/shops/:id",function(req,res){
+app.get("/purchases1/shops1/:id",function(req,res){
     let id=+req.params.id
     const shopsPurchases = data.purchases.filter(
         (purchase) => purchase.shopId === id
@@ -141,7 +141,7 @@ app.get("/purchases/shops/:id",function(req,res){
 
 
 
-app.get("/totalPurchase/shop/:id", function (req, res) {
+app.get("/totalPurchase1/shop1/:id", function (req, res) {
   const shopId = +req.params.id;
   const shop = data.shops.find((shop) => shop.shopId === shopId);
 
@@ -172,7 +172,7 @@ app.get("/totalPurchase/shop/:id", function (req, res) {
   res.send(totalShopByDetail);
 });
 
-app.get("/totalPurchase/product/:id", function (req, res) {
+app.get("/totalPurchase1/product1/:id", function (req, res) {
   const productId = +req.params.id;
   const product = data.products.find((product) => product.productId === productId);
 
