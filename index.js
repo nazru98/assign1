@@ -24,7 +24,7 @@ app.get("/shops1", function (req, res) {
     res.send(data.shops);
   
   });
-
+  let axios=require("axios")
 
   app.post('/post', async (req, res) => {
     const { method, fetchURL, data, headers } = req.body;
