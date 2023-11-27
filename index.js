@@ -2021,13 +2021,7 @@ res.send(classesArr)
 });
 
 
-app.post("/postClass",(req,res)=>{
-let newClass=req.body;
-newClass.classId=classes.length+1;
-classes.push(newClass);
-res.send(classes),
-console.log(newClass,'ghjk');
-})
+
 
 app.put("/postClass/:id",(req,res)=>{
 let classId=+req.params.id;
