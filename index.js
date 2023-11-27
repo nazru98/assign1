@@ -13,15 +13,67 @@ app.use(function (req, res, next) {
   );
   next();
 });
+const bodyParser = require('body-parser');
+
 const port = 2410;
 app.listen(port, () => console.log(`Listening on port ${port} !`));
 let { data } = require("./productsDetail");
+app.use(bodyParser.json());
 
 app.get("/shops1", function (req, res) {
     res.send(data.shops);
   
   });
 
+
+  app.post('/post', async (req, res) => {
+    const { method, fetchURL, data, headers } = req.body;
+  
+  
+    try {
+        let response;
+        const requestOptions = { headers: headers || {} };
+  
+        if (method === 'GET') {
+            response = await axios.get(fetchURL, requestOptions);
+          
+        } else if (method === 'POST') {
+            response = await axios.post(fetchURL, data, requestOptions);
+            console.log(response, 'post');
+        } else if (method === 'PUT') {
+            response = await axios.put(fetchURL, data, requestOptions);
+        } else if (method === 'DELETE') {
+            response = await axios.delete(fetchURL, requestOptions);
+        }
+  
+    
+        const status = response.status;
+        res.header('X-Status', status);
+        res.header('X-Method', method);
+    
+        res.json({ status,method, data: response.data});
+      
+    } catch (error) {
+        if (error.response) {
+          
+            const statusCode = error.response.status;
+            if (statusCode === 401) {
+                res.status(401).json({ error: 'Unauthorized: You do not have permission to access the specified URL' });
+              
+            } else if (statusCode === 404) {
+              res.sendStatus(statusCode)
+               
+            } else {
+                res.status(statusCode).json({ error: `Error: ${error.response.statusText}` });
+                console.log(statusCode,'123');
+              }
+  
+           
+  
+          }
+        }
+  });
+  
   app.post("/shops1",function(req,res){
     let body=req.body   
     let maxid=data.shops.reduce((acc,cur)=>cur.shopId>=acc?cur.shopId:acc,0)
